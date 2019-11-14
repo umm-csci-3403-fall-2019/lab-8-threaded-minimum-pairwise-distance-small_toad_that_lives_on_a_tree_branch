@@ -1,12 +1,7 @@
 package mpd;
 
-import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
-
-import javax.xml.transform.Result;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance, Runnable {
 
@@ -15,7 +10,6 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance,
     private int N;
     private int marker;
     private int[] values;
-    private long result = Integer.MAX_VALUE;
 
     private static int thread1Result;
     private static int thread2Result;
@@ -36,7 +30,6 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance,
     @Override
     public long minimumPairwiseDistance(int[] values)  { //throws InterruptedException --> may need
         int val = values.length;
-        //Result sharedResult = new Result();
 
         Thread[] threads = new Thread[numThreads];  // Create and start a bunch of threads
 
@@ -64,10 +57,7 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance,
         }
 
         int[] threadResults = {thread1Result, thread2Result, thread3Result, thread4Result};
-        System.out.println("Array of results: " + Arrays.toString(threadResults));
         Arrays.sort(threadResults);
-        System.out.println("Array of sorted results: " + Arrays.toString(threadResults));
-        System.out.println("Final result = " + threadResults[0]);
 
         return threadResults[0];
     }
